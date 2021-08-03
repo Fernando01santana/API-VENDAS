@@ -1,5 +1,4 @@
-import AppError from '@shared/errors/AppError';
-import { throws } from 'assert';
+import AppError from '../../../../shared/errors/AppError';
 import { EntityRepository, Repository } from 'typeorm';
 import UserToken from '../entities/UserToken';
 

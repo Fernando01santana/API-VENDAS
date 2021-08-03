@@ -1,4 +1,4 @@
-import { createConnection } from 'typeorm';
+import { Connection, createConnection } from 'typeorm';
 createConnection()
     .then(() => {
         console.log('database connected 🍏');
@@ -6,3 +6,8 @@ createConnection()
     .catch(error => {
         console.log('database desconected 🔴', error);
     });
+
+export default async (): Promise<Connection> => {
+    const connectionAgo = await createConnection();
+    return connectionAgo;
+};

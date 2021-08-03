@@ -1,4 +1,4 @@
-import AppError from '@shared/errors/AppError';
+import AppError from '../../../shared/errors/AppError';
 import { hash } from 'bcryptjs';
 import { getCustomRepository } from 'typeorm';
 import User from '../typeorm/entities/Users';

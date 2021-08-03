@@ -1,9 +1,9 @@
-import AppError from '@shared/errors/AppError';
+import AppError from '../../../shared/errors/AppError';
 import { compare } from 'bcryptjs';
 import { getCustomRepository } from 'typeorm';
 import User from '../typeorm/entities/Users';
 import UserRepository from '../typeorm/repositories/UsersRepository';
-import auth from '@config/auth';
+import auth from '../../../config/auth';
 import { sign } from 'jsonwebtoken';
 
 interface IRequest {
@@ -37,6 +37,7 @@ class CreateUserService {
                 expiresIn: '1d',
             });
         } catch (error) {
+            console.log(error.message);
             throw new AppError(error.message, 401);
         }
 

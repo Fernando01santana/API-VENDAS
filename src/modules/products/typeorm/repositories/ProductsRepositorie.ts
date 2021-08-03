@@ -1,4 +1,4 @@
-import Product from '@modules/products/typeorm/entities/Products';
+import Product from '../entities/Products';
 import { EntityRepository, Repository } from 'typeorm';
 
 @EntityRepository(Product)

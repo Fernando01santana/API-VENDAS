@@ -1,9 +1,9 @@
-import AppError from '@shared/errors/AppError';
+import AppError from '../../../shared/errors/AppError';
 import { getCustomRepository } from 'typeorm';
 import User from '../typeorm/entities/Users';
 import UserRepository from '../typeorm/repositories/UsersRepository';
 import path from 'path';
-import uploadConfig from '@config/upload';
+import uploadConfig from '../../../config/upload';
 import fs from 'fs';
 
 interface IRequest {

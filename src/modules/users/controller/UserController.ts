@@ -2,6 +2,7 @@ import CreateUserService from '@modules/users/services/CreateUserService';
 import RemoveUserService from '@modules/users/services/RemoveUserService';
 import UpdateUserService from '@modules/users/services/UpdateUserService';
 import ListUsersService from '../services/ListUsersServices';
+
 import { Request, Response } from 'express';
 
 class UserController {

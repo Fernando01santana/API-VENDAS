@@ -3,14 +3,18 @@ import { getCustomRepository } from 'typeorm';
 import User from '../typeorm/entities/Users';
 import UserRepository from '../typeorm/repositories/UsersRepository';
 
-class ListUsersService {
-    async execute(): Promise<User[]> {
+interface IRequest {
+    user_id: string;
+}
+
+class ShowProfileService {
+    async execute({ user_id }: IRequest): Promise<User> {
         const repositoryUser = getCustomRepository(UserRepository);
-        const allUsers = await repositoryUser.find();
-        if (!allUsers) {
+        const user = await repositoryUser.findById(user_id);
+        if (!user) {
             throw new AppError('Nenhum usuario cadastrado ate o momento!', 401);
         }
-        return allUsers;
+        return user;
     }
 }
-export default ListUsersService;
+export default ShowProfileService;

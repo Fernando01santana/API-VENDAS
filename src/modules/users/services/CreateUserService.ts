@@ -1,7 +1,6 @@
-import AppError from '@shared/errors/AppError';
+import AppError from '../../../shared/errors/AppError';
 import { hash } from 'bcryptjs';
-import { CreateDateColumn, getCustomRepository } from 'typeorm';
-import User from '../typeorm/entities/Users';
+import { getCustomRepository } from 'typeorm';
 import UserRepository from '../typeorm/repositories/UsersRepository';
 
 interface IRequest {

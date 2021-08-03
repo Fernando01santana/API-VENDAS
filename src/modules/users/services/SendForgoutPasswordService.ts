@@ -1,9 +1,8 @@
-import AppError from '@shared/errors/AppError';
+import AppError from '../../../shared/errors/AppError';
 import { getCustomRepository } from 'typeorm';
 import UserRepository from '../typeorm/repositories/UsersRepository';
 import UserTokensRepository from '../typeorm/repositories/UserTokensRepository';
-import EthereoEmail from '@config/mail/EthereoEmail';
-import handlebars from 'handlebars';
+import EthereoEmail from '../../../config/mail/EthereoEmail';
 import path from 'path';
 
 interface IRequest {

@@ -5,7 +5,7 @@ import tokenSecret from '@config/auth';
 
 //interface from object return
 interface ITokenPayload {
-    iat: string;
+    iat: number;
     exp: number;
     sub: string;
 }
