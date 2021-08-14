@@ -7,12 +7,6 @@ class CustomerController {
         const costumer = await createCostumer.execute({ name, email });
         return response.json({ costumer, status: 200 });
     }
-
-    // async delete(request: Response, response: Response): Promise<Response> {}
-
-    // async list(request: Response, response: Response): Promise<Response> {}
-
-    // async update(request: Response, response: Response): Promise<Response> {}
 }
 
 export default CustomerController;

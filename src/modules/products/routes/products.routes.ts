@@ -7,6 +7,6 @@ const productController = new ProductController();
 productRouter.get('/', productController.list);
 productRouter.get('/:id', productController.update);
 productRouter.delete('/:id', productController.remove);
-productRouter.post('/', productController.create);
+productRouter.post('/create', productController.create);
 
 export default productRouter;

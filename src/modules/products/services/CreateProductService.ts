@@ -10,22 +10,27 @@ interface IRequest {
 }
 
 class CreateProductService {
-    async execute({ name, price, quantity }: IRequest): Promise<Product> {
-        const productRepository = getCustomRepository(ProductRepositorie);
-        const searchProduct = await productRepository.findByName(name);
-        if (searchProduct) {
-            throw new AppError(
-                'Produto com o nome informado já cadastrado!',
-                400,
-            );
+    public async execute({
+        name,
+        price,
+        quantity,
+    }: IRequest): Promise<Product> {
+        const productsRepository = getCustomRepository(ProductRepositorie);
+        const productExists = await productsRepository.findByName(name);
+
+        if (productExists) {
+            throw new AppError('There is already one product with this name');
         }
-        const createProduct = productRepository.create({
+
+        const product = productsRepository.create({
             name,
             price,
             quantity,
         });
-        await productRepository.save(createProduct);
-        return createProduct;
+
+        await productsRepository.save(product);
+
+        return product;
     }
 }
 export default CreateProductService;

@@ -1,10 +1,28 @@
-import Product from '../entities/Products';
-import { EntityRepository, Repository } from 'typeorm';
+import Products from '../entities/Products';
+import { EntityRepository, In, Repository } from 'typeorm';
 
-@EntityRepository(Product)
-export class ProductRepositorie extends Repository<Product> {
-    public async findByName(name: string): Promise<Product | undefined> {
-        const product = this.findOne({ where: { name: name } });
-        return product;
+interface IRequest {
+    id: string;
+}
+
+@EntityRepository(Products)
+export class ProductRepositorie extends Repository<Products> {
+    public async findByName(name: string): Promise<Products | undefined> {
+        try {
+            const product = await this.findOne({ where: { name: name } });
+            return product;
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
+    public async findAllIds(products: IRequest[]): Promise<Products[]> {
+        const idsProducts = products.map(product => product.id);
+        const ExistsProducts = await this.find({
+            where: {
+                id: In(idsProducts),
+            },
+        });
+        return ExistsProducts;
     }
 }

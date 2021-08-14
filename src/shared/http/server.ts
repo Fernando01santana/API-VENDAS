@@ -1,19 +1,22 @@
-import express, { NextFunction, Request, Response } from 'express';
 import 'reflect-metadata';
+import express, { NextFunction, Request, Response } from 'express';
+import 'express-async-errors';
 import cors from 'cors';
+import { errors } from 'celebrate';
 import routes from './routes';
 import AppError from '@shared/errors/AppError';
-import '@shared/typeorm/index';
-import { errors } from 'celebrate';
+import '@shared/typeorm';
 import uploadConfig from '@config/upload';
+
 const app = express();
 
-//definido rota estatica
 app.use(cors());
 app.use(express.json());
-app.use(errors());
 app.use('/files', express.static(uploadConfig.directory));
 app.use(routes);
+
+app.use(errors());
+
 app.use(
     (
         error: Error,
@@ -28,8 +31,8 @@ app.use(
             });
         }
         return response.status(500).json({
-            status: 'Error',
-            message: 'Iternal server error',
+            status: 'error',
+            message: error.message,
         });
     },
 );
@@ -37,4 +40,3 @@ app.use(
 app.listen(3333, () => {
     console.log('Server started on port 3333! 🏆 ');
 });
-export default app;
