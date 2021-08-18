@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import products from '../../../modules/products/routes/products.routes';
-import user from '../../../modules/users/routes/user.routes';
-import forgoutRouter from '../../../modules/users/routes/password.routes';
-import routeCostumer from '../../../modules/customers/routes/costumer.routes';
-import routeOrder from '../../../modules/orders/routes/order.routes';
+import products from '@modules/products/infra/http/routes/products.routes';
+import user from '@modules/users/infra/http/routes/user.routes';
+import forgoutRouter from '@modules/users/infra/http/routes/password.routes';
+import routeCostumer from '@modules/customers/infra/http/routes/costumer.routes';
+import routeOrder from '@modules/orders/infra/http/routes/order.routes';
 
 const routes = Router();
 routes.use('/products', products);

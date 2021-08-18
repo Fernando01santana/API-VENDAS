@@ -1,7 +1,7 @@
 import AppError from '@shared/errors/AppError';
 import { getCustomRepository } from 'typeorm';
-import Order from '../typeorm/entities/Order';
-import OrdertRepositorie from '../typeorm/repositorie/OrderRepository';
+import OrdertRepositorie from '@modules/orders/infra/typeorm/repositorie/OrderRepository';
+import Order from '@modules/orders/infra/typeorm/entities/Order';
 
 class ShowOrderService {
     async execute(): Promise<Order[]> {
