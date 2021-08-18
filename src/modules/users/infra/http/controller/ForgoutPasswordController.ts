@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import SendForgoutPassowrdService from '../services/SendForgoutPasswordService';
+import SendForgoutPassowrdService from '@modules/users/services/SendForgoutPasswordService';
 
 class ForgoutPasswordController {
     public async create(

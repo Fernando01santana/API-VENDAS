@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import UserController from '@modules/users/controller/UserController';
-import SessionController from '@modules/users/controller/SessionController';
-import UsersAvatarController from '@modules/users/controller/UserAvatarController';
+import UserController from '@modules/users/infra/http/controller/UserController';
+import SessionController from '@modules/users/infra/http/controller/SessionController';
+import UsersAvatarController from '@modules/users/infra/http/controller/UserAvatarController';
 import ProfileController from '../controller/ProfileController';
-import isAuthenticated from '../../../shared/http/middlewares/isAuthenticated';
+import isAuthenticated from '@shared/infra/http/middlewares/isAuthenticated';
 import multer from 'multer';
 
 import uploadConfig from '@config/upload';

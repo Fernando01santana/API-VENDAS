@@ -1,8 +1,8 @@
-import CreateProductService from '../services/CreateProductService';
+import CreateProductService from '@modules/products/services/CreateProductService';
 import { Request, Response } from 'express';
-import ListProductService from '../services/ListProductService';
-import UpdateProductService from '../services/UpdaetProductService';
-import DeleteProductService from '../services/DeleteProductService';
+import ListProductService from '@modules/products/services/ListProductService';
+import UpdateProductService from '@modules/products/services/UpdaetProductService';
+import DeleteProductService from '@modules/products/services/DeleteProductService';
 
 class ProductController {
     public async create(

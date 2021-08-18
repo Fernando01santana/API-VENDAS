@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import ForgoutPasswordController from '@modules/users/controller/ForgoutPasswordController';
+import ForgoutPasswordController from '@modules/users/infra/http/controller/ForgoutPasswordController';
 import ResetPasswordController from '../controller/ResetPasswordController';
 
 const forgoutRouter = Router();
