@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import ListProductService from '@modules/products/services/ListProductService';
 import UpdateProductService from '@modules/products/services/UpdaetProductService';
 import DeleteProductService from '@modules/products/services/DeleteProductService';
+import { container } from 'tsyringe';
 
 class ProductController {
     public async create(
@@ -10,7 +11,7 @@ class ProductController {
         response: Response,
     ): Promise<Response> {
         const { name, price, quantity } = request.body;
-        const productCreate = new CreateProductService();
+        const productCreate = container.resolve(CreateProductService);
         const product = await productCreate.execute({ name, price, quantity });
         return response.json({ product, status: 200 });
     }

@@ -1,21 +1,17 @@
 import AppError from '../../../shared/errors/AppError';
 import { getCustomRepository } from 'typeorm';
-import Product from '@modules/products/infra/typeorm/entities/Products';
-import { ProductRepositorie } from '@modules/products/infra/typeorm/repositories/ProductsRepositorie';
 
-interface IRequest {
-    id: string;
-    name: string;
-    price: number;
-    quantity: number;
-}
+import { ProductRepositorie } from '@modules/products/infra/typeorm/repositories/ProductsRepositorie';
+import { IUpdadeProduct } from '../domain/models/IUpdateProduct';
+import { IProduct } from '../domain/models/IProduct';
+
 class UpdateProductService {
     public async execute({
         id,
         name,
         price,
         quantity,
-    }: IRequest): Promise<Product> {
+    }: IUpdadeProduct): Promise<IProduct> {
         const productRepository = getCustomRepository(ProductRepositorie);
         const product = await productRepository.find({ where: { id: id } });
         if (!product[0]) {

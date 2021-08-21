@@ -1,13 +1,12 @@
 import AppError from '@shared/errors/AppError';
-import { getCustomRepository } from 'typeorm';
 import OrdertRepositorie from '@modules/orders/infra/typeorm/repositorie/OrderRepository';
 import Order from '@modules/orders/infra/typeorm/entities/Order';
 
 class ShowOrderService {
+    constructor(private orderRepository: OrdertRepositorie) {}
     async execute(): Promise<Order[]> {
-        const orderRepository = getCustomRepository(OrdertRepositorie);
-        const orders = await orderRepository.find();
-        if (!orders[0]) {
+        const orders = await this.orderRepository.find();
+        if (!orders) {
             throw new AppError('Nenhuma order encontrada!', 401);
         }
         return orders;

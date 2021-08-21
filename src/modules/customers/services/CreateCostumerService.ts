@@ -1,17 +1,29 @@
 import AppError from '@shared/errors/AppError';
-import { getCustomRepository } from 'typeorm';
-import { CostumerRepositorie } from '@modules/customers/infra/typeorm/repositories/CostumerRepositorie';
-import Customers from '@modules/customers/infra/typeorm/entities/Costumers';
+import { inject, injectable } from 'tsyringe';
+import { ICreateCustomer } from '../domain/models/ICreateCustomer';
+import { ICustomer } from '../domain/models/ICustomer';
+import { ICtusomersRepositorie } from '../domain/repositories/ICustomerRepositorie';
 
-interface IRequest {
-    name: string;
-    email: string;
-}
+/**
+ * removendo dependencia do typeORM e usando
+ * a interface de repositorio para acessar os metodos de manipulação do banco
+ * na linha 13 criei um construtor com um metodo privado onde recebe o
+ * repositorio do customer.
+ * apartir desse metodos consigo manipular o banco sem usar o ORM em si
+ */
 
+//informa que a classe é injetavel
+@injectable()
 class CreateCostumerService {
-    async execute({ name, email }: IRequest): Promise<Customers> {
-        const costumerRepositie = getCustomRepository(CostumerRepositorie);
-        const searchUser = await costumerRepositie.findByEmail(email);
+    constructor(
+        //passa oque será injetado dentro da classe = chave presente la no container
+        @inject('CostumerRepositorie')
+        private customersRepository: ICtusomersRepositorie,
+    ) {}
+
+    async execute({ name, email }: ICreateCustomer): Promise<ICustomer> {
+        const searchUser = await this.customersRepository.findByEmail(email);
+
         if (searchUser) {
             throw new AppError('O email informado já está em uso!', 401);
         }
@@ -22,13 +34,11 @@ class CreateCostumerService {
                 401,
             );
         }
-        const newCostumer = costumerRepositie.create({
+        const newCostumer = await this.customersRepository.create({
             name,
             email,
         });
-
-        const saveCostumer = await costumerRepositie.save(newCostumer);
-        return saveCostumer;
+        return newCostumer;
     }
 }
 
