@@ -2,7 +2,7 @@ import Products from '../entities/Products';
 import { EntityRepository, getRepository, In, Repository } from 'typeorm';
 import { IProduct } from '@modules/products/domain/models/IProduct';
 import { ICreateProduct } from '@modules/products/domain/models/ICreateProduct';
-import { IProductRepository } from '@modules/products/domain/models/IProductRepository';
+import { IProductRepository } from '@modules/products/domain/models/repositorie/IProductRepository';
 import { IFindProducts } from '@modules/products/domain/models/IFinfProduct';
 
 @EntityRepository(Products)

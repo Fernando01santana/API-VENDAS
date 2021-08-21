@@ -2,7 +2,7 @@ import AppError from '../../../shared/errors/AppError';
 import RedisCache from '@shared/cache/RedisCache';
 import { IProduct } from '../domain/models/IProduct';
 import { ICreateProduct } from '../domain/models/ICreateProduct';
-import { IProductRepository } from '../domain/models/IProductRepository';
+import { IProductRepository } from '../domain/models/repositorie/IProductRepository';
 import { inject, injectable } from 'tsyringe';
 
 @injectable()

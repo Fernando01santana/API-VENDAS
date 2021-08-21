@@ -3,7 +3,7 @@ import { IOrderRepositorie } from '../domain/repositories/IOrderRepositorie';
 import { ICtusomersRepositorie } from '@modules/customers/domain/repositories/ICustomerRepositorie';
 import { IOrder } from '../domain/models/IOrder';
 import { inject, injectable } from 'tsyringe';
-import { IProductRepository } from '@modules/products/domain/models/IProductRepository';
+import { IProductRepository } from '@modules/products/domain/models/repositorie/IProductRepository';
 import { ICreateOrder } from '../domain/models/ICreateOrder';
 
 @injectable()
