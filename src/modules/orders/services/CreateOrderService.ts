@@ -1,6 +1,6 @@
 import AppError from '@shared/errors/AppError';
 import { IOrderRepositorie } from '../domain/repositories/IOrderRepositorie';
-import { ICtusomersRepositorie } from '@modules/customers/domain/repositories/ICustomerRepositorie';
+import { ICustomersRepositorie } from '@modules/customers/domain/repositories/ICustomerRepositorie';
 import { IOrder } from '../domain/models/IOrder';
 import { inject, injectable } from 'tsyringe';
 import { IProductRepository } from '@modules/products/domain/models/repositorie/IProductRepository';
@@ -13,14 +13,13 @@ class CreateOrderService {
         private ordersRepository: IOrderRepositorie,
 
         @inject('CostumerRepositorie')
-        private customersRepository: ICtusomersRepositorie,
+        private customersRepository: ICustomersRepositorie,
 
         @inject('ProductRepository')
         private productsRepository: IProductRepository,
     ) {}
 
     async execute({ customer, products }: ICreateOrder): Promise<IOrder> {
-        console.log(customer);
         const customerExists = await this.customersRepository.findById(
             customer,
         );
