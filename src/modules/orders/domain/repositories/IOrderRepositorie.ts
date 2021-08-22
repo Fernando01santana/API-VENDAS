@@ -1,8 +1,8 @@
 import { IOrder } from '../models/IOrder';
-import { ICreateOrder } from '../models/ICreateOrder';
+import { ICreateOrderMethod } from '../models/ICreateOrderMethod';
 
 export interface IOrderRepositorie {
     findById(id: string): Promise<IOrder | undefined>;
-    create(data: ICreateOrder): Promise<IOrder>;
+    create(data: ICreateOrderMethod): Promise<IOrder>;
     find(): Promise<IOrder[] | undefined>;
 }

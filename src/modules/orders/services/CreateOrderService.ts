@@ -12,15 +12,17 @@ class CreateOrderService {
         @inject('OrdersRepository')
         private ordersRepository: IOrderRepositorie,
 
-        @inject('CustomersRepository')
+        @inject('CostumerRepositorie')
         private customersRepository: ICtusomersRepositorie,
 
         @inject('ProductRepository')
         private productsRepository: IProductRepository,
     ) {}
+
     async execute({ customer, products }: ICreateOrder): Promise<IOrder> {
+        console.log(customer);
         const customerExists = await this.customersRepository.findById(
-            customer.id,
+            customer,
         );
 
         if (!customerExists) {

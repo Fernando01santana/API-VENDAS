@@ -11,7 +11,7 @@ class OrderController {
         const { orderProducts, customer } = request.body;
         const createOrderService = container.resolve(CreateOrderService);
         const order = await createOrderService.execute({
-            costumer_id: customer,
+            customer: customer,
             products: orderProducts,
         });
         return response.json({ order, status: 200 });

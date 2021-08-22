@@ -5,17 +5,20 @@
  */
 import Costumer from '../entities/Costumers';
 import { Repository, getRepository } from 'typeorm';
-import { ICtusomersRepositorie } from '@modules/customers/domain/repositories/ICustomerRepositorie';
+import { ICustomersRepositorie } from '@modules/customers/domain/repositories/ICustomerRepositorie';
 import { ICreateCustomer } from '@modules/customers/domain/models/ICreateCustomer';
 import { ICustomer } from '@modules/customers/domain/models/ICustomer';
 
-export class CostumerRepositorie implements ICtusomersRepositorie {
+export class CostumerRepositorie implements ICustomersRepositorie {
     private ormRepository: Repository<Costumer>;
     constructor() {
         this.ormRepository = getRepository(Costumer);
     }
-    create(data: ICreateCustomer): Promise<ICustomer> {
-        throw new Error('Method not implemented.');
+
+    async create(data: ICreateCustomer): Promise<ICustomer> {
+        const customer = this.ormRepository.create(data);
+        await this.ormRepository.save(customer);
+        return customer;
     }
 
     public async save(customer: Costumer): Promise<Costumer> {
@@ -28,9 +31,8 @@ export class CostumerRepositorie implements ICtusomersRepositorie {
         await this.ormRepository.remove(customer);
     }
 
-    public async findAll(): Promise<Costumer[] | undefined> {
+    public async find(): Promise<Costumer[] | undefined> {
         const customers = await this.ormRepository.find();
-
         return customers;
     }
 
@@ -50,7 +52,6 @@ export class CostumerRepositorie implements ICtusomersRepositorie {
                 id,
             },
         });
-
         return customer;
     }
 

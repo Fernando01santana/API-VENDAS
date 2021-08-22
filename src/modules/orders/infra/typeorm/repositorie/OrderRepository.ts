@@ -2,6 +2,7 @@ import { EntityRepository, getRepository, Repository } from 'typeorm';
 import Order from '../entities/Order';
 import { IOrderRepositorie } from '@modules/orders/domain/repositories/IOrderRepositorie';
 import { ICreateOrder } from '@modules/orders/domain/models/ICreateOrder';
+import { ICreateOrderMethod } from '@modules/orders/domain/models/ICreateOrderMethod';
 
 @EntityRepository(Order)
 export class OrdertRepositorie implements IOrderRepositorie {
@@ -22,7 +23,10 @@ export class OrdertRepositorie implements IOrderRepositorie {
         return order;
     }
 
-    public async create({ customer, products }: ICreateOrder): Promise<Order> {
+    public async create({
+        customer,
+        products,
+    }: ICreateOrderMethod): Promise<Order> {
         const order = this.ormRepository.create({
             customer,
             orderProducts: products,

@@ -6,8 +6,8 @@ import { ICustomer } from '../models/ICustomer';
  * que irei usar posteriormente
  */
 
-export interface ICtusomersRepositorie {
-    findAll(): Promise<ICustomer[] | undefined>;
+export interface ICustomersRepositorie {
+    find(): Promise<ICustomer[] | undefined>;
     findByName(name: string): Promise<ICustomer | undefined>;
     findById(id: string): Promise<ICustomer | undefined>;
     findByEmail(email: string): Promise<ICustomer | undefined>;
