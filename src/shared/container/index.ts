@@ -5,6 +5,9 @@ import { IOrderRepositorie } from '@modules/orders/domain/repositories/IOrderRep
 import OrdertRepositorie from '@modules/orders/infra/typeorm/repositorie/OrderRepository';
 import { IProductRepository } from '@modules/products/domain/models/repositorie/IProductRepository';
 import { ProductRepositorie } from '@modules/products/infra/typeorm/repositories/ProductsRepositorie';
+import { IUserRepositorie } from '@modules/users/domain/repositories/IUserRepositorie';
+import UserRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
+import BcryptHashProvider from '@modules/users/providers/HashProvider/implementation/BcryptHashProvider';
 
 container.registerSingleton<ICustomersRepositorie>(
     'CostumerRepositorie',
@@ -19,4 +22,14 @@ container.registerSingleton<IOrderRepositorie>(
 container.registerSingleton<IProductRepository>(
     'ProductRepository',
     ProductRepositorie,
+);
+
+container.registerSingleton<IUserRepositorie>(
+    'UserRepositorie',
+    UserRepository,
+);
+
+container.registerSingleton<BcryptHashProvider>(
+    'BcryptHash',
+    BcryptHashProvider,
 );

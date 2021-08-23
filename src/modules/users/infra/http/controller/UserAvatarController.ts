@@ -1,12 +1,13 @@
 import UpdateUserAvatarService from '@modules/users/services/UpdateUserAvatarService';
 import { Request, Response } from 'express';
+import { container } from 'tsyringe';
 
 class UserAvatarController {
     public async update(
         request: Request,
         response: Response,
     ): Promise<Response> {
-        const updateUserAvatar = new UpdateUserAvatarService();
+        const updateUserAvatar = container.resolve(UpdateUserAvatarService);
         const fileName = request.file?.filename;
         const avatar = updateUserAvatar.execute({
             fileName,

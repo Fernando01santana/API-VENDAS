@@ -2,7 +2,7 @@ import AppError from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
 import { ICreateCustomer } from '../domain/models/ICreateCustomer';
 import { ICustomer } from '../domain/models/ICustomer';
-import { ICtusomersRepositorie } from '../domain/repositories/ICustomerRepositorie';
+import { ICustomersRepositorie } from '../domain/repositories/ICustomerRepositorie';
 
 /**
  * removendo dependencia do typeORM e usando
@@ -18,7 +18,7 @@ class CreateCostumerService {
     constructor(
         //passa oque será injetado dentro da classe = chave presente la no container
         @inject('CostumerRepositorie')
-        private customersRepository: ICtusomersRepositorie,
+        private customersRepository: ICustomersRepositorie,
     ) {}
 
     async execute({ name, email }: ICreateCustomer): Promise<ICustomer> {
@@ -28,12 +28,6 @@ class CreateCostumerService {
             throw new AppError('O email informado já está em uso!', 401);
         }
 
-        if (!name || !email) {
-            throw new AppError(
-                'Informe email e nome do cliente que deseja cadastrar',
-                401,
-            );
-        }
         const newCostumer = await this.customersRepository.create({
             name,
             email,

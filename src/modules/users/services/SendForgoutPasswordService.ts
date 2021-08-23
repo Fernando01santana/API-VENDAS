@@ -1,20 +1,21 @@
 import AppError from '../../../shared/errors/AppError';
-import { getCustomRepository } from 'typeorm';
-import User from '@modules/users/infra/typeorm/entities/Users';
 import UserRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
-import UserTokensRepository from '@modules/users/infra/typeorm/repositories/UserTokensRepository';
 
 import EthereoEmail from '../../../config/mail/EthereoEmail';
 import path from 'path';
+import { inject, injectable } from 'tsyringe';
+import BcryptHashProvider from '../providers/HashProvider/implementation/BcryptHashProvider';
 
-interface IRequest {
-    email: string;
-}
-
+@injectable()
 class SendForgoutPassowrdService {
-    async execute({ email }: IRequest): Promise<void> {
-        const userRepository = getCustomRepository(UserRepository);
-        const userExists = await userRepository.findByEmail(email);
+    constructor(
+        @inject('BcryptHash')
+        private bcryptHash: BcryptHashProvider,
+        @inject('UserRepositorie')
+        private userRepository: UserRepository,
+    ) { }
+    async execute(email: string): Promise<void> {
+        const userExists = await this.userRepository.findByEmail(email);
 
         const forgoutPasswordTemplate = path.resolve(
             __dirname,
@@ -29,11 +30,7 @@ class SendForgoutPassowrdService {
                 401,
             );
         }
-        const generateTOkenRepository =
-            getCustomRepository(UserTokensRepository);
-        const generateToken = await generateTOkenRepository.generate(
-            userExists.id,
-        );
+        const generateToken = await this.bcryptHash.generateHsh(userExists.id);
 
         const sendMail = new EthereoEmail();
         await sendMail.sendEmail({
@@ -46,7 +43,7 @@ class SendForgoutPassowrdService {
                 file: forgoutPasswordTemplate,
                 variables: {
                     name: userExists.name,
-                    link: `${process.env.APP_WEB_URL}/reset_password?token=${generateToken.token}`,
+                    link: `${process.env.APP_WEB_URL}/reset_password?token=${generateToken}`,
                 },
             },
         });

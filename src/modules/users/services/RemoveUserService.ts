@@ -1,21 +1,22 @@
 import AppError from '../../../shared/errors/AppError';
-import { getCustomRepository } from 'typeorm';
-import User from '@modules/users/infra/typeorm/entities/Users';
-import UserRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
+import { inject, injectable } from 'tsyringe';
+import { IUserRepositorie } from '../domain/repositories/IUserRepositorie';
+import { IRemove } from '../domain/models/IRemove';
+import { IUser } from '@modules/orders/domain/models/IUser';
 
-interface IRequest {
-    id: string;
-}
-
+@injectable()
 class RemoveUserService {
-    async execute({ id }: IRequest): Promise<User> {
-        const userRepository = getCustomRepository(UserRepository);
-        const searchUser = await userRepository.findOne({ where: { id: id } });
+    constructor(
+        @inject('UserRepositorie')
+        private userRepository: IUserRepositorie,
+    ) { }
+    async execute({ id }: IRemove): Promise<IUser> {
+        const searchUser = await this.userRepository.findById(id);
         if (!searchUser) {
             throw new AppError('Usuario não encontrado!', 401);
         }
 
-        await userRepository.delete(searchUser);
+        await this.userRepository.remove(searchUser.id);
         return searchUser;
     }
 }

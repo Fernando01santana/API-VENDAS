@@ -5,16 +5,17 @@ import UserRepository from '@modules/users/infra/typeorm/repositories/UsersRepos
 import path from 'path';
 import uploadConfig from '../../../config/upload';
 import fs from 'fs';
+import { IUpdateUserAvatar } from '../domain/models/IUpdateUserAvatar';
+import { inject, injectable } from 'tsyringe';
 
-interface IRequest {
-    fileName: string | undefined;
-    user_id: string;
-}
-
+@injectable()
 class UpdateUserAvatarService {
-    async execute({ user_id, fileName }: IRequest): Promise<User> {
-        const userRepository = getCustomRepository(UserRepository);
-        const user = await userRepository.findById(user_id);
+    constructor(
+        @inject('UserRepositorie')
+        private userRepository: UserRepository,
+    ) { }
+    async execute({ user_id, fileName }: IUpdateUserAvatar): Promise<User> {
+        const user = await this.userRepository.findById(user_id);
         if (!fileName || !user_id) {
             throw new AppError(
                 'Nome de arquivo ou id de usuario não enviado!',
@@ -39,7 +40,7 @@ class UpdateUserAvatarService {
         }
 
         user.avatar = fileName;
-        await userRepository.save(user);
+        await this.userRepository.save(user);
         return user;
     }
 }

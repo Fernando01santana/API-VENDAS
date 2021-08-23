@@ -1,20 +1,18 @@
 import AppError from '../../../shared/errors/AppError';
 import { hash } from 'bcryptjs';
-import { getCustomRepository } from 'typeorm';
-import User from '@modules/users/infra/typeorm/entities/Users';
 import UserRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
+import { IUpdateUser } from '../domain/models/IUpdateUser';
+import { inject, injectable } from 'tsyringe';
+import { IUser } from '@modules/orders/domain/models/IUser';
 
-interface IRequest {
-    id: string;
-    name: string;
-    email: string;
-    password: string;
-}
-
+@injectable()
 class UpdateUserService {
-    async execute({ id, name, email, password }: IRequest): Promise<User> {
-        const userRepository = getCustomRepository(UserRepository);
-        const searchUser = await userRepository.findOne({ where: { id: id } });
+    constructor(
+        @inject('UserRepositorie')
+        private userRepository: UserRepository,
+    ) { }
+    async execute({ id, name, email, password }: IUpdateUser): Promise<IUser> {
+        const searchUser = await this.userRepository.findById(id);
         if (!searchUser) {
             throw new AppError('Usuario não encontrado!', 401);
         }
@@ -23,7 +21,7 @@ class UpdateUserService {
         searchUser.name = name;
         searchUser.password = await hash(password, 8);
 
-        const userUpdated = await userRepository.save(searchUser);
+        const userUpdated = await this.userRepository.save(searchUser);
         return userUpdated;
     }
 }

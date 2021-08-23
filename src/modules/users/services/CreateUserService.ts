@@ -1,34 +1,31 @@
 import AppError from '../../../shared/errors/AppError';
-import { hash } from 'bcryptjs';
-import { getCustomRepository } from 'typeorm';
-import User from '@modules/users/infra/typeorm/entities/Users';
-import UserRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
+import BcryptHashProvider from '../providers/HashProvider/implementation/BcryptHashProvider';
+import { ICreateUser } from '../domain/models/ICreateUser';
+import { inject, injectable } from 'tsyringe';
+import { IUserRepositorie } from '../domain/repositories/IUserRepositorie';
 
-interface IRequest {
-    name: string;
-    password: string;
-    email: string;
-}
-
+@injectable()
 class CreateUserService {
-    async execute({ name, email, password }: IRequest): Promise<void> {
-        const userRepository = getCustomRepository(UserRepository);
+    constructor(
+        @inject('UserRepositorie')
+        private userRepository: IUserRepositorie,
+    ) { }
+    async execute({ name, email, password }: ICreateUser): Promise<void> {
         if (name === '' || email === '' || password === '') {
             throw new AppError('Um ou mais parametros nao informados!', 401);
         }
-        const hashedPassword = await hash(password, 8);
-        const searchUser = await userRepository.findByEmail(email);
+        const bcryptHashedProvider = new BcryptHashProvider();
+        const hashedPassword = await bcryptHashedProvider.generateHsh(password);
+        const searchUser = await this.userRepository.findByEmail(email);
         if (searchUser) {
             throw new AppError('Email já em uso', 401);
         }
 
-        const createUser = await userRepository.create({
+        await this.userRepository.create({
             email: email,
             name: name,
             password: hashedPassword,
         });
-
-        await userRepository.save(createUser);
         return;
     }
 }

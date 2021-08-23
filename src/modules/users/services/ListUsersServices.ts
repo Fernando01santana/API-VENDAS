@@ -1,12 +1,17 @@
 import AppError from '../../../shared/errors/AppError';
-import { getCustomRepository } from 'typeorm';
-import User from '@modules/users/infra/typeorm/entities/Users';
-import UserRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
+import { inject, injectable } from 'tsyringe';
+import { IUserRepositorie } from '../domain/repositories/IUserRepositorie';
+import { IUser } from '@modules/orders/domain/models/IUser';
 
+@injectable()
 class ListUsersService {
-    async execute(): Promise<User[]> {
-        const repositoryUser = getCustomRepository(UserRepository);
-        const allUsers = await repositoryUser.find();
+    constructor(
+        @inject('UserRepositorie')
+        private userRepository: IUserRepositorie,
+    ) { }
+    async execute(): Promise<IUser[]> {
+        const allUsers = await this.userRepository.findAll();
+        console.log(allUsers);
         if (!allUsers) {
             throw new AppError('Nenhum usuario cadastrado ate o momento!', 401);
         }

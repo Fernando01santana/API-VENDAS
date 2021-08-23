@@ -1,5 +1,5 @@
 import AppError from '@shared/errors/AppError';
-import { compare } from 'bcryptjs';
+import BcryptHashProvider from '../providers/HashProvider/implementation/BcryptHashProvider';
 import { getCustomRepository } from 'typeorm';
 import User from '@modules/users/infra/typeorm/entities/Users';
 import UserRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
@@ -19,6 +19,7 @@ class CreateUserService {
     async execute({ email, password }: IRequest): Promise<IResponse> {
         let user;
         let token;
+        const bcryptHashedProvider = new BcryptHashProvider();
         try {
             const userRepository = getCustomRepository(UserRepository);
 
@@ -27,7 +28,10 @@ class CreateUserService {
                 throw new AppError('Email ou senha, invalidos', 401);
             }
 
-            const passwordHash = await compare(password, user.password);
+            const passwordHash = await bcryptHashedProvider.compareHash(
+                password,
+                user.password,
+            );
             if (!passwordHash) {
                 throw new AppError('Email ou senha, invalidos', 401);
             }

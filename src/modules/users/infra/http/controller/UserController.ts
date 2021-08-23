@@ -4,6 +4,7 @@ import UpdateUserService from '@modules/users/services/UpdateUserService';
 import ListUsersService from '@modules/users/services/ListUsersServices';
 
 import { Request, Response } from 'express';
+import { container } from 'tsyringe';
 
 class UserController {
     public async create(
@@ -12,7 +13,7 @@ class UserController {
     ): Promise<Response> {
         const { name, email, password } = request.body;
 
-        const createUserService = new CreateUserService();
+        const createUserService = container.resolve(CreateUserService);
         const user = await createUserService.execute({ name, email, password });
         return response.json({ user, status: 200 });
     }
@@ -22,7 +23,7 @@ class UserController {
         response: Response,
     ): Promise<Response> {
         const { id } = request.params;
-        const removeUserService = new RemoveUserService();
+        const removeUserService = container.resolve(RemoveUserService);
         const user = await removeUserService.execute({ id });
         return response.json({ user, status: 200 });
     }
@@ -33,7 +34,7 @@ class UserController {
     ): Promise<Response> {
         const { id } = request.params;
         const { name, email, password } = request.body;
-        const updateUserService = new UpdateUserService();
+        const updateUserService = container.resolve(UpdateUserService);
         const user = await updateUserService.execute({
             id,
             name,
@@ -44,7 +45,7 @@ class UserController {
     }
 
     public async list(request: Request, response: Response): Promise<Response> {
-        const listUsers = new ListUsersService();
+        const listUsers = container.resolve(ListUsersService);
         const allUsers = await listUsers.execute();
         return response.json({ allUsers, status: 200 });
     }
