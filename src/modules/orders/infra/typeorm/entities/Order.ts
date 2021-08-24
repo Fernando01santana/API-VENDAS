@@ -9,7 +9,7 @@ import {
     UpdateDateColumn,
 } from 'typeorm';
 
-import Customers from '@modules/customers/infra/typeorm/entities/Costumers';
+import Customers from '../../../../customers/infra/typeorm/entities/Costumers';
 import OrderProducts from './OrderProducts';
 
 @Entity('orders')
