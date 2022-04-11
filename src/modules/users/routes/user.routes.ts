@@ -4,6 +4,7 @@ import SessionController from '@modules/users/controller/SessionController';
 import UsersAvatarController from '@modules/users/controller/UserAvatarController';
 import ProfileController from '../controller/ProfileController';
 import isAuthenticated from '../../../shared/http/middlewares/isAuthenticated';
+import isEmpty from '../../../shared/http/middlewares/isEmpty';
 import multer from 'multer';
 
 import uploadConfig from '@config/upload';
@@ -18,7 +19,7 @@ const upload = multer(uploadConfig);
 
 userRouter.put('/update', isAuthenticated, userController.update);
 userRouter.post('/create/session', sessionController.create);
-userRouter.post('/create', userController.create);
+userRouter.post('/create', isEmpty, userController.create);
 userRouter.put('/remove', isAuthenticated, userController.remove);
 userRouter.get('/list', userController.list);
 userRouter.post('/auth', sessionController.create);
